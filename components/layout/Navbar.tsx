@@ -3,7 +3,16 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+const menuItems = [
+  "home",
+  "about",
+  "products",
+  "projects",
+  "contact",
+];
+
 export default function Navbar() {
+  const [active, setActive] = useState("home");
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -13,56 +22,70 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      {
+        threshold: 0.5,
+      }
+    );
+
+    menuItems.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-black/60 backdrop-blur-md shadow-xl"
+          ? "bg-black/70 backdrop-blur-lg shadow-lg"
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-6">
-
-        {/* Logo */}
-
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
         <Link href="/">
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-5xl font-bold text-white">
             Kaca<span className="text-yellow-400">Haus</span>
           </h1>
         </Link>
 
-        {/* Menu */}
-
-        <nav className="hidden gap-14 text-white md:flex">
-
-          {[
-            "Home",
-            "About",
-            "Products",
-            "Projects",
-            "Contact",
-          ].map((item) => (
+        <nav className="hidden gap-10 md:flex">
+          {menuItems.map((item) => (
             <a
               key={item}
-              href={`#${item.toLowerCase()}`}
-              className="relative font-medium uppercase tracking-wide transition hover:text-yellow-400"
+              href={`#${item}`}
+              className={`relative uppercase font-medium transition-all duration-300 ${
+                active === item
+                  ? "text-yellow-400"
+                  : "text-white hover:text-yellow-400"
+              }`}
             >
-              {item}
+              {item.toUpperCase()}
 
-              <span className="absolute left-0 -bottom-2 h-[2px] w-0 bg-[#C8A96A] hover:bg-[#B89558] transition-all duration-300 hover:w-full"></span>
+              <span
+                className={`absolute left-0 -bottom-2 h-[2px] bg-yellow-400 transition-all duration-300 ${
+                  active === item ? "w-full" : "w-0"
+                }`}
+              />
             </a>
           ))}
         </nav>
 
-        {/* Button */}
-
-        <button className="rounded-full bg-[#C8A96A] px-7 py-3 font-semibold text-black transition hover:bg-[#B89558]">
+        <button className="rounded-full bg-[#c8a96a] px-7 py-3 font-semibold text-black hover:bg-[#b89a5b] transition">
           Get Quote
         </button>
-
       </div>
     </header>
   );
