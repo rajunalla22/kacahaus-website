@@ -34,3 +34,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+# Kacahaus Website
+
+A premium architecture, interior design, and furniture website built using Next.js 16, React, TypeScript, and Tailwind CSS.
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Features
+
+- Responsive design
+- Modern UI
+- Interior & architecture showcase
+- Product catalog
+- Projects gallery
+- Contact page
+
+## Status
+
+🚧 Under Development
